@@ -1,0 +1,11 @@
+{
+ "page": "index.html",
+ "url": null,
+ "root": null,
+ "kind": "software",
+ "category": "부가세 신고용 엑셀 생성 서비스",
+ "primary": "내 카드 내역으로 엑셀 만들기",
+ "rounds": 3,
+ "start": "2026-11-13T01:51:17.022Z",
+ "by": "gate.mjs --start"
+}

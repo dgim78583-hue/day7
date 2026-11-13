@@ -1,0 +1,958 @@
+{
+ "start": "2026-11-13T01:51:17.022Z",
+ "round": 3,
+ "idle": 0,
+ "errors": 0,
+ "status": "open",
+ "history": [
+  {
+   "at": "2026-11-13T01:52:58.945Z",
+   "mode": "manual",
+   "status": "fail",
+   "fails": 35,
+   "round": 1,
+   "reused": false,
+   "stopHookActive": false
+  },
+  {
+   "at": "2026-11-13T01:55:01.926Z",
+   "mode": "manual",
+   "status": "fail",
+   "fails": 30,
+   "round": 2,
+   "reused": false,
+   "stopHookActive": false
+  },
+  {
+   "at": "2026-11-13T01:56:57.618Z",
+   "mode": "manual",
+   "status": "open",
+   "fails": 23,
+   "round": 3,
+   "reused": false,
+   "stopHookActive": false
+  },
+  {
+   "at": "2026-11-13T01:58:08.722Z",
+   "mode": "hook",
+   "host": "claude",
+   "decision": "allow",
+   "reason": "no build is active here",
+   "stopHookActive": true
+  }
+ ],
+ "max": 3,
+ "marker": {
+  "page": "index.html",
+  "url": null,
+  "root": null,
+  "kind": "software",
+  "category": "부가세 신고용 엑셀 생성 서비스",
+  "primary": "내 카드 내역으로 엑셀 만들기",
+  "rounds": 3,
+  "start": "2026-11-13T01:51:17.022Z",
+  "by": "gate.mjs --start"
+ },
+ "manual": true,
+ "roundKey": "bca879a5e75b42c2:da39a3ee",
+ "roundFree": false,
+ "idleFree": false,
+ "blockKey": null,
+ "fp": "bca879a5e75b42c2",
+ "page": "index.html",
+ "found": {
+  "fails": [
+   {
+    "check": "nav",
+    "where": "(the first screen)",
+    "msg": "no nav bar across the top of the first screen (a header with the brand, the section links and the main action)",
+    "fix": "make the nav one bar from the content's left edge to its right edge, with every link and action inside it",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "nav"
+    ],
+    "wheres": [
+     "(the first screen)"
+    ]
+   },
+   {
+    "check": "no-visual",
+    "where": "section#problem \"부가세 신고 때마다 같은 선택을 합니다\"",
+    "msg": "no picture, effect or mock in this section; a feature section needs a visual",
+    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "no-visual"
+    ],
+    "wheres": [
+     "section#problem \"부가세 신고 때마다 같은 선택을 합니다\""
+    ]
+   },
+   {
+    "check": "text-only",
+    "where": "section#cta \"이번 신고 기간의 카드 내역 정리는 택스봇에 맡기세요\"",
+    "msg": "the closing section is only text: no picture, icon, mock or effect in it",
+    "fix": "give the section a visual: a photograph that fits, the real icons, or a UI fragment on a ground",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "text-only"
+    ],
+    "wheres": [
+     "section#cta \"이번 신고 기간의 카드 내역 정리는 택스봇에 맡기세요\""
+    ]
+   },
+   {
+    "check": "copy-fact",
+    "where": "section#hero > div.wrap > div:nth-of-type(1) > h1 \"세무사 쓰기엔 아깝고, 직접 하긴 귀찮은 부가세\"",
+    "msg": "the first screen holds no number, price, date, place, platform or genre",
+    "fix": "put one hard fact from the brief on the first screen: a number, a price, a date, the place, the platforms it runs on or a game's genre; take it from the brief or remove the claim",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "copy-fact"
+    ],
+    "wheres": [
+     "section#hero > div.wrap > div:nth-of-type(1) > h1 \"세무사 쓰기엔 아깝고, 직접 하긴 귀찮은 부가세\""
+    ]
+   },
+   {
+    "check": "heading-scale",
+    "where": "section#cta > div.wrap > div.box > h2 \"이번 신고 기간의 카드 내역 정리는 택스봇에 맡기세요\"",
+    "msg": "h2 headings in 3 sizes, 44px (\"카드를 연결하고, 클릭 한 번이면 됩니다\") to 60px (x1.36)",
+    "fix": "size headings by level: the h1 largest, one size per level, each level below the one above",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "heading-scale"
+    ],
+    "wheres": [
+     "section#cta > div.wrap > div.box > h2 \"이번 신고 기간의 카드 내역 정리는 택스봇에 맡기세요\""
+    ]
+   },
+   {
+    "check": "off-grid",
+    "where": "footer.closing > div.wrap \"택스봇\"",
+    "msg": "left edge at 174px, 14px off the page margin at 160px (8 elements)",
+    "fix": "move it onto the page margin, or the column edge its section uses",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "off-grid"
+    ],
+    "wheres": [
+     "footer.closing > div.wrap \"택스봇\""
+    ]
+   },
+   {
+    "check": "focus-visible",
+    "where": "input#needToggle",
+    "msg": "Tab stop 2, input \"\": the focus lands on something you cannot see",
+    "fix": "keep the kit's ring (system.css :focus-visible, 2px in --action, there at once); a control that hides itself shows on focus",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "focus-visible"
+    ],
+    "wheres": [
+     "input#needToggle"
+    ]
+   },
+   {
+    "check": "focus-visible",
+    "where": "a#finalCta \"내 카드 내역으로 엑셀 만들기\"",
+    "msg": "Tab stop 4, a \"내 카드 내역으로 엑셀 만들기\": the focus lands on something you cannot see",
+    "fix": "keep the kit's ring (system.css :focus-visible, 2px in --action, there at once); a control that hides itself shows on focus",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "focus-visible"
+    ],
+    "wheres": [
+     "a#finalCta \"내 카드 내역으로 엑셀 만들기\""
+    ]
+   },
+   {
+    "check": "hero-enter",
+    "where": "section#hero",
+    "msg": "the hero does not enter on load: no data-enter on the hero and no head line setting html.m-enter (motion.md, The hero's entrance)",
+    "fix": "put data-enter on the hero <section> and keep the head line from starter.html that sets html.m-enter",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "hero-enter"
+    ],
+    "wheres": [
+     "section#hero"
+    ]
+   },
+   {
+    "check": "moment-none",
+    "where": "(the page)",
+    "msg": "a software page (--type) deals no moment: every kind carries one, two on a long page (moments.md)",
+    "fix": "deal one (moments.mjs pick --page software) and mount it in its own section",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "moment-none"
+    ],
+    "wheres": [
+     "(the page)"
+    ]
+   },
+   {
+    "check": "section-height",
+    "where": "footer.closing \"택스봇\"",
+    "msg": "the section is 120px tall (0.1 screens), 780px short of one screen (900px): every section after the hero is one screen or two, 2px either way (SR-2)",
+    "fix": "set the section to one screen or two (height: calc(var(--h,1) * 100vh), --h 1 or 2) and cut or split its content to fit",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "section-height"
+    ],
+    "wheres": [
+     "footer.closing \"택스봇\""
+    ]
+   },
+   {
+    "check": "section-height",
+    "where": "section#solution \"카드를 연결하고, 클릭 한 번이면 됩니다 이미지: 카드 연동 화면 1 카\"",
+    "msg": "the section is 933px tall (1 screens), 33px over one screen (900px): every section after the hero is one screen or two, 2px either way (SR-2)",
+    "fix": "set the section to one screen or two (height: calc(var(--h,1) * 100vh), --h 1 or 2) and cut or split its content to fit",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "section-height",
+     "screen-height"
+    ],
+    "wheres": [
+     "section#solution \"카드를 연결하고, 클릭 한 번이면 됩니다 이미지: 카드 연동 화면 1 카\"",
+     "#solution section.solution \"카드를 연결하고, 클릭 한 번이면 됩니다 이미지: 카드 연\""
+    ]
+   },
+   {
+    "check": "section-height",
+    "where": "section#cta \"이번 신고 기간의 카드 내역 정리는 택스봇에 맡기세요 카드를 연결하고 클\"",
+    "msg": "the section starts at 2733px, 33px below the screen grid (3 x 900px): sections start on whole screens (SR-2)",
+    "fix": "make every section above it exactly one or two screens tall, so this one starts on a whole screen",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "section-height"
+    ],
+    "wheres": [
+     "section#cta \"이번 신고 기간의 카드 내역 정리는 택스봇에 맡기세요 카드를 연결하고 클\""
+    ]
+   },
+   {
+    "check": "one-section",
+    "where": "footer.closing \"택스봇\"",
+    "msg": "the screen at scroll 2901px (the top of section 5) shows 120px of section 5 and the content of 2 sections, over 24px each beside section 4: a screen shows one section (another may peek 8px, 24px WARN) (SR-4)",
+    "fix": "make each section exactly one screen or two, so a screen shows one section and no neighbour peeks",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "one-section"
+    ],
+    "wheres": [
+     "footer.closing \"택스봇\""
+    ]
+   },
+   {
+    "check": "one-section",
+    "where": "section#solution \"카드를 연결하고, 클릭 한 번이면 됩니다 이미지: 카드 연동 화면 1 카\"",
+    "msg": "the screen at scroll 2700px (stride 3) shows 33px of section 3 beside section 4: a screen shows one section (another may peek 8px, 24px WARN) (SR-4)",
+    "fix": "make each section exactly one screen or two, so a screen shows one section and no neighbour peeks",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "one-section"
+    ],
+    "wheres": [
+     "section#solution \"카드를 연결하고, 클릭 한 번이면 됩니다 이미지: 카드 연동 화면 1 카\""
+    ]
+   },
+   {
+    "check": "container-edges",
+    "where": "footer.closing \"택스봇\"",
+    "msg": "the content of section 5 runs 174px from the left and 146px from the right: the page's container starts at 160px; 174 and 146px are not one margin; the margin is 64-120px at 1440px (one container, equal margins, 2px either way) (SR-6)",
+    "fix": "use one container on every section and the nav (.wrap): one margin left and right, 64-120px on a desktop, 16-24px on a phone",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "container-edges"
+    ],
+    "wheres": [
+     "footer.closing \"택스봇\""
+    ]
+   },
+   {
+    "check": "container-edges",
+    "where": "header.top.nav \"본문으로 건너뛰기 택스봇 확인 필요 표시 켜짐\"",
+    "msg": "the nav's content runs 160px from the left and 160px from the right: the margin is 64-120px at 1440px (one container, equal margins, 2px either way) (and 5 more like it: \"세무사 쓰기엔 아깝고, 직접 하긴 귀찮은 부\", \"부가세 신고 때마다 같은 선택을 합니다 세무\", \"카드를 연결하고, 클릭 한 번이면 됩니다 이\") (SR-6)",
+    "fix": "use one container on every section and the nav (.wrap): one margin left and right, 64-120px on a desktop, 16-24px on a phone",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "container-edges"
+    ],
+    "wheres": [
+     "header.top.nav \"본문으로 건너뛰기 택스봇 확인 필요 표시 켜짐\""
+    ]
+   },
+   {
+    "check": "container-edges",
+    "where": "section#hero > div.wrap \"세무사 쓰기엔 아깝고, 직접 하긴 귀찮은 부가세 카드 내역을 연동하면 부\"",
+    "msg": "the hero's .wrap holds 2 children, 0 of them .hero-text: one .hero-text and at most one strip (SR-6)",
+    "fix": "build the page as header.nav, a main of sections (each one in-flow .wrap plus background layers) and footer.closing",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "container-edges"
+    ],
+    "wheres": [
+     "section#hero > div.wrap \"세무사 쓰기엔 아깝고, 직접 하긴 귀찮은 부가세 카드 내역을 연동하면 부\""
+    ]
+   },
+   {
+    "check": "container-edges",
+    "where": "footer.closing > div.wrap \"택스봇\"",
+    "msg": "footer.closing > .wrap holds 0 children: exactly two (the call, then the legal row) (SR-6)",
+    "fix": "build the page as header.nav, a main of sections (each one in-flow .wrap plus background layers) and footer.closing",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "container-edges"
+    ],
+    "wheres": [
+     "footer.closing > div.wrap \"택스봇\""
+    ]
+   },
+   {
+    "check": "container-edges",
+    "where": "header.top.nav > a.skip \"본문으로 건너뛰기\"",
+    "msg": "a box runs 16-207px, outside the container lines of the nav at 160-1280px: full width is for background layers and grounds only (SR-6)",
+    "fix": "keep it inside the container lines (.wrap): full width is for background layers and grounds only",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "container-edges"
+    ],
+    "wheres": [
+     "header.top.nav > a.skip \"본문으로 건너뛰기\""
+    ]
+   },
+   {
+    "check": "container-edges",
+    "where": "section#problem > div.wrap > div.body > span.need \"세무사 대행 평균 비용, 수작업 정리에 걸리는 시간. 확인된 수치가 있을\"",
+    "msg": "1 text block starts on a left line at x 808, 648px from the container's left: text starts on the container's left, or on one split line (x 637, 732, 827) (SR-6)",
+    "fix": "start the text on the container's left, or on the one split line every split shares",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "container-edges"
+    ],
+    "wheres": [
+     "section#problem > div.wrap > div.body > span.need \"세무사 대행 평균 비용, 수작업 정리에 걸리는 시간. 확인된 수치가 있을\""
+    ]
+   },
+   {
+    "check": "container-edges",
+    "where": "section#cta > div.wrap > div.box > span.need \"가격 또는 무료 여부, 카드 정보 보호 안내\"",
+    "msg": "1 text block starts on a left line at x 301, 141px from the container's left: text starts on the container's left, or on one split line (x 637, 732, 827) (and 4 more like it: x 236, x 225, \"이번 신고 기간의 카드 내역 정리는 택스봇에\") (SR-6)",
+    "fix": "start the text on the container's left, or on the one split line every split shares",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "container-edges"
+    ],
+    "wheres": [
+     "section#cta > div.wrap > div.box > span.need \"가격 또는 무료 여부, 카드 정보 보호 안내\""
+    ]
+   },
+   {
+    "check": "sparse",
+    "where": "#cta section.cta \"이번 신고 기간의 카드 내역 정리는 택스봇에 맡기세요 카드\"",
+    "msg": "its content fills 39% of its screen; merge it or give it its visual (0.55 is the aim)",
+    "fix": "fill the section or make it a screen shorter",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "layout",
+    "ids": [
+     "sparse"
+    ],
+    "wheres": [
+     "#cta section.cta \"이번 신고 기간의 카드 내역 정리는 택스봇에 맡기세요 카드\""
+    ]
+   }
+  ],
+  "warns": [
+   {
+    "check": "no-visual",
+    "where": "section#solution \"카드를 연결하고, 클릭 한 번이면 됩니다\"",
+    "msg": "pictures, effects and mocks cover 21% of this section; a feature section needs a visual (about 25% or more)",
+    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "copy-headline",
+    "where": "section#hero > div.wrap > div:nth-of-type(1) > h1 \"세무사 쓰기엔 아깝고, 직접 하긴 귀찮은 부가세\"",
+    "msg": "\"세무사 쓰기엔 아깝고, 직접 하긴 귀찮은 부가세\": no category known to check it against (pass --category, or write the <title> as \"Name: what it is for whom\")",
+    "fix": "put the category noun in the h1 (and who it is for, or where), in 2 to 8 words",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "section-gaps",
+    "where": "section#problem / section#solution",
+    "msg": "uneven space at the edge of a band: 133px outside its edge, 233px inside it (the space on either side of a change of ground reads as one gap only when the two match)",
+    "fix": "use one gap between sections (all within 25% of each other)",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "links",
+    "where": "a#finalCta \"내 카드 내역으로 엑셀 만들기\"",
+    "msg": "\"내 카드 내역으로 엑셀 만들기\" goes to #cta, the block it already sits in",
+    "fix": "point every link at a real section, page or file",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "label-centre",
+    "where": "section#hero > div.wrap > div:nth-of-type(1) > a.btn \"내 카드 내역으로 엑셀 만들기\"",
+    "msg": "its label sits 28px off-centre (32px of room at the left, 60px at the right) (and 1 more like it: \"내 카드 내역으로 엑셀 만들기\")",
+    "fix": "centre the label in its button, or fill the empty side with an icon",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "font-load",
+    "where": "section#hero > div.wrap > div:nth-of-type(1) > h1 \"Pretendard\"",
+    "msg": "\"Pretendard\" is asked for by the h1, the h2s and the body text but never loaded (no font link or @font-face loads it): it shows in its fallback",
+    "fix": "load every family the type asks for: name it in the font link as start.mjs prints it, spelt as Google Fonts spells it, or ask for a family the page loads",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "skip-link",
+    "where": "header.top.nav > a.skip \"본문으로 건너뛰기\"",
+    "msg": "the first Tab stop is \"본문으로 건너뛰기\", not a skip link: a keyboard user tabs through the whole nav on every visit",
+    "fix": "add the starter's skip link as the header's first child: <a class=\"skip-link\" href=\"#top\">Skip to content</a>",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "share-meta",
+    "where": "head",
+    "msg": "the head lacks og:title, og:description, og:image, twitter:card, an icon: a shared link shows no picture or title of its own",
+    "fix": "copy the head block of starter.html: og tags, twitter:card, the icon and theme-color (references/system.md, Head)",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "section-air",
+    "where": "section#problem \"부가세 신고 때마다 같은 선택을 합니다 세무사에게 맡기자니 1인 프리랜서\"",
+    "msg": "the content fills 51.4% of the section's height (463 of 900px): 55% or more (40% WARN) (SR-3)",
+    "fix": "fill the section to 55%: more content, a picture or a background layer, or merge it into the section above as its last block",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "cta",
+    "where": "section#solution \"카드를 연결하고, 클릭 한 번이면 됩니다\"",
+    "msg": "a section over 1.5 screens long with no link or button in it",
+    "fix": "add the action: a button in the hero, one on every priced item, one in the closing section",
+    "widths": [
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "section-gaps",
+    "where": "section#hero / section#problem",
+    "msg": "uneven space at the edge of a band: 65px outside its edge, 158px inside it (the space on either side of a change of ground reads as one gap only when the two match)",
+    "fix": "use one gap between sections (all within 25% of each other)",
+    "widths": [
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "grounds",
+    "where": "section#problem \"부가세 신고 때마다 같은 선택을 합니다 세무사에게 맡기자니 1인 프리랜서\"",
+    "msg": "4 flat grounds across the page (#f6f7f3 section x3, #0d1c15 section, #ffffff band x3, #e2efe8 band): three at most (the base, a surface, an inverse)",
+    "fix": "three flat grounds at most (the base, one surface, one inverse): lay the other bands on one of them",
+    "widths": [
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "fold-cut",
+    "where": "div.wrap > div.visual > figure.wire > figcaption \"이미지: 부가세 신고용 엑셀 결과 화면\"",
+    "msg": "a line of the hero text is sliced by the bottom of the first screen",
+    "fix": "size the hero so the heading ends above the fold, or starts below it",
+    "widths": [
+     320
+    ],
+    "from": "consistency"
+   }
+  ],
+  "crashed": [],
+  "seconds": {
+   "consistency": 82,
+   "layout": 13
+  }
+ },
+ "open": [
+  {
+   "check": "nav",
+   "where": "(the first screen)",
+   "msg": "no nav bar across the top of the first screen (a header with the brand, the section links and the main action)",
+   "fix": "make the nav one bar from the content's left edge to its right edge, with every link and action inside it",
+   "widths": [
+    1440,
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "nav"
+   ],
+   "wheres": [
+    "(the first screen)"
+   ]
+  },
+  {
+   "check": "no-visual",
+   "where": "section#problem \"부가세 신고 때마다 같은 선택을 합니다\"",
+   "msg": "no picture, effect or mock in this section; a feature section needs a visual",
+   "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+   "widths": [
+    1440,
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "no-visual"
+   ],
+   "wheres": [
+    "section#problem \"부가세 신고 때마다 같은 선택을 합니다\""
+   ]
+  },
+  {
+   "check": "text-only",
+   "where": "section#cta \"이번 신고 기간의 카드 내역 정리는 택스봇에 맡기세요\"",
+   "msg": "the closing section is only text: no picture, icon, mock or effect in it",
+   "fix": "give the section a visual: a photograph that fits, the real icons, or a UI fragment on a ground",
+   "widths": [
+    1440,
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "text-only"
+   ],
+   "wheres": [
+    "section#cta \"이번 신고 기간의 카드 내역 정리는 택스봇에 맡기세요\""
+   ]
+  },
+  {
+   "check": "copy-fact",
+   "where": "section#hero > div.wrap > div:nth-of-type(1) > h1 \"세무사 쓰기엔 아깝고, 직접 하긴 귀찮은 부가세\"",
+   "msg": "the first screen holds no number, price, date, place, platform or genre",
+   "fix": "put one hard fact from the brief on the first screen: a number, a price, a date, the place, the platforms it runs on or a game's genre; take it from the brief or remove the claim",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "copy-fact"
+   ],
+   "wheres": [
+    "section#hero > div.wrap > div:nth-of-type(1) > h1 \"세무사 쓰기엔 아깝고, 직접 하긴 귀찮은 부가세\""
+   ]
+  },
+  {
+   "check": "heading-scale",
+   "where": "section#cta > div.wrap > div.box > h2 \"이번 신고 기간의 카드 내역 정리는 택스봇에 맡기세요\"",
+   "msg": "h2 headings in 3 sizes, 44px (\"카드를 연결하고, 클릭 한 번이면 됩니다\") to 60px (x1.36)",
+   "fix": "size headings by level: the h1 largest, one size per level, each level below the one above",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "heading-scale"
+   ],
+   "wheres": [
+    "section#cta > div.wrap > div.box > h2 \"이번 신고 기간의 카드 내역 정리는 택스봇에 맡기세요\""
+   ]
+  },
+  {
+   "check": "off-grid",
+   "where": "footer.closing > div.wrap \"택스봇\"",
+   "msg": "left edge at 174px, 14px off the page margin at 160px (8 elements)",
+   "fix": "move it onto the page margin, or the column edge its section uses",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "off-grid"
+   ],
+   "wheres": [
+    "footer.closing > div.wrap \"택스봇\""
+   ]
+  },
+  {
+   "check": "focus-visible",
+   "where": "input#needToggle",
+   "msg": "Tab stop 2, input \"\": the focus lands on something you cannot see",
+   "fix": "keep the kit's ring (system.css :focus-visible, 2px in --action, there at once); a control that hides itself shows on focus",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "focus-visible"
+   ],
+   "wheres": [
+    "input#needToggle"
+   ]
+  },
+  {
+   "check": "focus-visible",
+   "where": "a#finalCta \"내 카드 내역으로 엑셀 만들기\"",
+   "msg": "Tab stop 4, a \"내 카드 내역으로 엑셀 만들기\": the focus lands on something you cannot see",
+   "fix": "keep the kit's ring (system.css :focus-visible, 2px in --action, there at once); a control that hides itself shows on focus",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "focus-visible"
+   ],
+   "wheres": [
+    "a#finalCta \"내 카드 내역으로 엑셀 만들기\""
+   ]
+  },
+  {
+   "check": "hero-enter",
+   "where": "section#hero",
+   "msg": "the hero does not enter on load: no data-enter on the hero and no head line setting html.m-enter (motion.md, The hero's entrance)",
+   "fix": "put data-enter on the hero <section> and keep the head line from starter.html that sets html.m-enter",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "hero-enter"
+   ],
+   "wheres": [
+    "section#hero"
+   ]
+  },
+  {
+   "check": "moment-none",
+   "where": "(the page)",
+   "msg": "a software page (--type) deals no moment: every kind carries one, two on a long page (moments.md)",
+   "fix": "deal one (moments.mjs pick --page software) and mount it in its own section",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "moment-none"
+   ],
+   "wheres": [
+    "(the page)"
+   ]
+  },
+  {
+   "check": "section-height",
+   "where": "footer.closing \"택스봇\"",
+   "msg": "the section is 120px tall (0.1 screens), 780px short of one screen (900px): every section after the hero is one screen or two, 2px either way (SR-2)",
+   "fix": "set the section to one screen or two (height: calc(var(--h,1) * 100vh), --h 1 or 2) and cut or split its content to fit",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "section-height"
+   ],
+   "wheres": [
+    "footer.closing \"택스봇\""
+   ]
+  },
+  {
+   "check": "section-height",
+   "where": "section#solution \"카드를 연결하고, 클릭 한 번이면 됩니다 이미지: 카드 연동 화면 1 카\"",
+   "msg": "the section is 933px tall (1 screens), 33px over one screen (900px): every section after the hero is one screen or two, 2px either way (SR-2)",
+   "fix": "set the section to one screen or two (height: calc(var(--h,1) * 100vh), --h 1 or 2) and cut or split its content to fit",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "section-height",
+    "screen-height"
+   ],
+   "wheres": [
+    "section#solution \"카드를 연결하고, 클릭 한 번이면 됩니다 이미지: 카드 연동 화면 1 카\"",
+    "#solution section.solution \"카드를 연결하고, 클릭 한 번이면 됩니다 이미지: 카드 연\""
+   ]
+  },
+  {
+   "check": "section-height",
+   "where": "section#cta \"이번 신고 기간의 카드 내역 정리는 택스봇에 맡기세요 카드를 연결하고 클\"",
+   "msg": "the section starts at 2733px, 33px below the screen grid (3 x 900px): sections start on whole screens (SR-2)",
+   "fix": "make every section above it exactly one or two screens tall, so this one starts on a whole screen",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "section-height"
+   ],
+   "wheres": [
+    "section#cta \"이번 신고 기간의 카드 내역 정리는 택스봇에 맡기세요 카드를 연결하고 클\""
+   ]
+  },
+  {
+   "check": "one-section",
+   "where": "footer.closing \"택스봇\"",
+   "msg": "the screen at scroll 2901px (the top of section 5) shows 120px of section 5 and the content of 2 sections, over 24px each beside section 4: a screen shows one section (another may peek 8px, 24px WARN) (SR-4)",
+   "fix": "make each section exactly one screen or two, so a screen shows one section and no neighbour peeks",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "one-section"
+   ],
+   "wheres": [
+    "footer.closing \"택스봇\""
+   ]
+  },
+  {
+   "check": "one-section",
+   "where": "section#solution \"카드를 연결하고, 클릭 한 번이면 됩니다 이미지: 카드 연동 화면 1 카\"",
+   "msg": "the screen at scroll 2700px (stride 3) shows 33px of section 3 beside section 4: a screen shows one section (another may peek 8px, 24px WARN) (SR-4)",
+   "fix": "make each section exactly one screen or two, so a screen shows one section and no neighbour peeks",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "one-section"
+   ],
+   "wheres": [
+    "section#solution \"카드를 연결하고, 클릭 한 번이면 됩니다 이미지: 카드 연동 화면 1 카\""
+   ]
+  },
+  {
+   "check": "container-edges",
+   "where": "footer.closing \"택스봇\"",
+   "msg": "the content of section 5 runs 174px from the left and 146px from the right: the page's container starts at 160px; 174 and 146px are not one margin; the margin is 64-120px at 1440px (one container, equal margins, 2px either way) (SR-6)",
+   "fix": "use one container on every section and the nav (.wrap): one margin left and right, 64-120px on a desktop, 16-24px on a phone",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "container-edges"
+   ],
+   "wheres": [
+    "footer.closing \"택스봇\""
+   ]
+  },
+  {
+   "check": "container-edges",
+   "where": "header.top.nav \"본문으로 건너뛰기 택스봇 확인 필요 표시 켜짐\"",
+   "msg": "the nav's content runs 160px from the left and 160px from the right: the margin is 64-120px at 1440px (one container, equal margins, 2px either way) (and 5 more like it: \"세무사 쓰기엔 아깝고, 직접 하긴 귀찮은 부\", \"부가세 신고 때마다 같은 선택을 합니다 세무\", \"카드를 연결하고, 클릭 한 번이면 됩니다 이\") (SR-6)",
+   "fix": "use one container on every section and the nav (.wrap): one margin left and right, 64-120px on a desktop, 16-24px on a phone",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "container-edges"
+   ],
+   "wheres": [
+    "header.top.nav \"본문으로 건너뛰기 택스봇 확인 필요 표시 켜짐\""
+   ]
+  },
+  {
+   "check": "container-edges",
+   "where": "section#hero > div.wrap \"세무사 쓰기엔 아깝고, 직접 하긴 귀찮은 부가세 카드 내역을 연동하면 부\"",
+   "msg": "the hero's .wrap holds 2 children, 0 of them .hero-text: one .hero-text and at most one strip (SR-6)",
+   "fix": "build the page as header.nav, a main of sections (each one in-flow .wrap plus background layers) and footer.closing",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "container-edges"
+   ],
+   "wheres": [
+    "section#hero > div.wrap \"세무사 쓰기엔 아깝고, 직접 하긴 귀찮은 부가세 카드 내역을 연동하면 부\""
+   ]
+  },
+  {
+   "check": "container-edges",
+   "where": "footer.closing > div.wrap \"택스봇\"",
+   "msg": "footer.closing > .wrap holds 0 children: exactly two (the call, then the legal row) (SR-6)",
+   "fix": "build the page as header.nav, a main of sections (each one in-flow .wrap plus background layers) and footer.closing",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "container-edges"
+   ],
+   "wheres": [
+    "footer.closing > div.wrap \"택스봇\""
+   ]
+  },
+  {
+   "check": "container-edges",
+   "where": "header.top.nav > a.skip \"본문으로 건너뛰기\"",
+   "msg": "a box runs 16-207px, outside the container lines of the nav at 160-1280px: full width is for background layers and grounds only (SR-6)",
+   "fix": "keep it inside the container lines (.wrap): full width is for background layers and grounds only",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "container-edges"
+   ],
+   "wheres": [
+    "header.top.nav > a.skip \"본문으로 건너뛰기\""
+   ]
+  },
+  {
+   "check": "container-edges",
+   "where": "section#problem > div.wrap > div.body > span.need \"세무사 대행 평균 비용, 수작업 정리에 걸리는 시간. 확인된 수치가 있을\"",
+   "msg": "1 text block starts on a left line at x 808, 648px from the container's left: text starts on the container's left, or on one split line (x 637, 732, 827) (SR-6)",
+   "fix": "start the text on the container's left, or on the one split line every split shares",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "container-edges"
+   ],
+   "wheres": [
+    "section#problem > div.wrap > div.body > span.need \"세무사 대행 평균 비용, 수작업 정리에 걸리는 시간. 확인된 수치가 있을\""
+   ]
+  },
+  {
+   "check": "container-edges",
+   "where": "section#cta > div.wrap > div.box > span.need \"가격 또는 무료 여부, 카드 정보 보호 안내\"",
+   "msg": "1 text block starts on a left line at x 301, 141px from the container's left: text starts on the container's left, or on one split line (x 637, 732, 827) (and 4 more like it: x 236, x 225, \"이번 신고 기간의 카드 내역 정리는 택스봇에\") (SR-6)",
+   "fix": "start the text on the container's left, or on the one split line every split shares",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "container-edges"
+   ],
+   "wheres": [
+    "section#cta > div.wrap > div.box > span.need \"가격 또는 무료 여부, 카드 정보 보호 안내\""
+   ]
+  },
+  {
+   "check": "sparse",
+   "where": "#cta section.cta \"이번 신고 기간의 카드 내역 정리는 택스봇에 맡기세요 카드\"",
+   "msg": "its content fills 39% of its screen; merge it or give it its visual (0.55 is the aim)",
+   "fix": "fill the section or make it a screen shorter",
+   "widths": [
+    1440,
+    390
+   ],
+   "from": "layout",
+   "ids": [
+    "sparse"
+   ],
+   "wheres": [
+    "#cta section.cta \"이번 신고 기간의 카드 내역 정리는 택스봇에 맡기세요 카드\""
+   ]
+  }
+ ],
+ "waived": [],
+ "warnCount": 13,
+ "at": "2026-11-13T01:56:57.619Z",
+ "openTold": true
+}

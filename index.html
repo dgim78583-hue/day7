@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="ko" data-type="software">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="page-type" content="software">
+<meta name="site-kind" content="software">
+<title>택스봇</title>
+<meta name="description" content="카드 내역을 연동하면 부가세 신고용 엑셀을 클릭 한 번으로 받습니다.">
+<meta name="theme-color" content="#0f6b4f">
+<style>
+  /* 토큰: 색, 간격(8pt), 반경, 글자 크기 */
+  :root {
+    --bg: #f6f7f3;
+    --surface: #ffffff;
+    --ink: #101c17;
+    --muted: #4c5b54;
+    --line: #d9dfd9;
+    --accent: #0b6148;
+    --accent-ink: #ffffff;
+    --accent-soft: #e2efe8;
+    --dark: #0d1c15;
+    --dark-ink: #eef5f0;
+    --dark-muted: #a8bdb1;
+    --need-bg: #fff4d6;
+    --need-ink: #6b4e00;
+    --need-line: #dcb958;
+    --wire-line: #a3afa8;
+    --wire-bg: #ebefea;
+
+    --r-sm: 10px;
+    --r-md: 16px;
+    --r-lg: 28px;
+
+    --s1: 8px; --s2: 16px; --s3: 24px; --s4: 32px; --s5: 48px; --s6: 64px; --s7: 96px;
+    --sec: clamp(72px, 11vw, 136px);
+
+    --fs-h1: clamp(34px, 5.6vw, 64px);
+    --fs-h2: clamp(28px, 4vw, 44px);
+    --fs-h3: 20px;
+    --fs-lead: clamp(17px, 1.7vw, 21px);
+    --fs-body: clamp(17px, 1.5vw, 19px);
+    --ease: cubic-bezier(.2, .7, .2, 1);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0b130f; --surface: #121e18; --ink: #eef4f0; --muted: #a5b6ac;
+      --line: #263630; --accent: #43c999; --accent-ink: #062018; --accent-soft: #13291f;
+      --dark: #050b08; --need-bg: #2c2610; --need-ink: #f0d27a; --need-line: #6b5a1e;
+      --wire-line: #4a5a52; --wire-bg: #18241e;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0b130f; --surface: #121e18; --ink: #eef4f0; --muted: #a5b6ac;
+    --line: #263630; --accent: #43c999; --accent-ink: #062018; --accent-soft: #13291f;
+    --dark: #050b08; --need-bg: #2c2610; --need-ink: #f0d27a; --need-line: #6b5a1e;
+    --wire-line: #4a5a52; --wire-bg: #18241e;
+  }
+
+  * { box-sizing: border-box; margin: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", system-ui, sans-serif;
+    font-size: var(--fs-body); line-height: 1.7;
+    -webkit-font-smoothing: antialiased; word-break: keep-all; overflow-wrap: break-word;
+  }
+  .wrap { width: min(1120px, calc(100% - 32px)); margin-inline: auto; }
+  @media (min-width: 720px) { .wrap { width: min(1120px, calc(100% - 80px)); } }
+
+  .skip {
+    position: absolute; left: 16px; top: -64px; z-index: 10;
+    background: var(--accent); color: var(--accent-ink); padding: 12px 16px; border-radius: var(--r-sm);
+    font-weight: 700; text-decoration: none;
+  }
+  .skip:focus { top: 16px; }
+
+  h1, h2, h3 { line-height: 1.22; letter-spacing: -0.035em; text-wrap: balance; }
+  h1 { font-size: var(--fs-h1); font-weight: 800; }
+  h2 { font-size: var(--fs-h2); font-weight: 800; }
+  h3 { font-size: var(--fs-h3); font-weight: 700; letter-spacing: -0.02em; }
+  p { text-wrap: pretty; }
+  .lead { font-size: var(--fs-lead); color: var(--muted); margin-top: var(--s3); max-width: 32em; line-height: 1.6; }
+
+  /* 헤더 */
+  .top { position: absolute; top: 0; left: 0; right: 0; z-index: 5; height: 72px; border-bottom: 1px solid var(--line); background: transparent; }
+  .top .wrap { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .logo { font-weight: 800; font-size: 22px; letter-spacing: -0.03em; color: var(--accent); }
+  .toggle {
+    font: inherit; font-size: 13px; color: var(--muted); min-height: 44px; padding: 0 16px;
+    background: transparent; border: 1px solid var(--line); border-radius: 999px; cursor: pointer;
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .toggle:hover { border-color: var(--muted); }
+  .toggle { display: inline-flex; align-items: center; }
+  .toggle input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .toggle:has(input:checked) { background: var(--need-bg); color: var(--need-ink); border-color: var(--need-line); }
+  .toggle:has(input:focus-visible) { outline: 3px solid var(--accent); outline-offset: 3px; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+  /* 버튼: 호버로 한 단계, 클릭으로 눌림 */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    min-height: 56px; padding: 0 32px; margin-top: var(--s4);
+    font: inherit; font-size: 18px; font-weight: 700; letter-spacing: -0.01em;
+    color: var(--accent-ink); background: var(--accent);
+    border: 0; border-radius: var(--r-sm); cursor: pointer; text-decoration: none;
+    transition: transform .18s var(--ease), box-shadow .18s var(--ease), filter .18s ease;
+  }
+  .btn::after { content: "→"; transition: transform .18s var(--ease); }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--accent) 70%, transparent); filter: brightness(1.06); }
+  .btn:hover::after { transform: translateX(4px); }
+  .btn:active { transform: translateY(0) scale(.98); box-shadow: none; }
+  @media (max-width: 560px) { .btn { width: 100%; padding-inline: 16px; font-size: 17px; gap: 8px; white-space: nowrap; } }
+
+  /* 확인 필요 표시 (개발용) */
+  .need {
+    display: block; margin-top: var(--s2); padding: 10px 14px; max-width: 34em;
+    font-size: 13px; line-height: 1.5;
+    background: var(--need-bg); color: var(--need-ink);
+    border: 1px dashed var(--need-line); border-radius: var(--r-sm);
+  }
+  .need::before { content: "확인 필요  "; font-weight: 700; }
+  body.hide-need .need { display: none; }
+
+  /* X 와이어프레임 */
+  .wire {
+    position: relative; width: 100%; aspect-ratio: 4 / 3;
+    border: 2px solid var(--wire-line); border-radius: var(--r-md); overflow: hidden;
+    background:
+      linear-gradient(to top right, transparent calc(50% - 1px), var(--wire-line) calc(50% - 1px), var(--wire-line) calc(50% + 1px), transparent calc(50% + 1px)),
+      linear-gradient(to bottom right, transparent calc(50% - 1px), var(--wire-line) calc(50% - 1px), var(--wire-line) calc(50% + 1px), transparent calc(50% + 1px)),
+      var(--wire-bg);
+  }
+  .wire figcaption {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    background: var(--bg); color: var(--muted); font-size: 13px; line-height: 1.4;
+    padding: 6px 14px; border: 1px solid var(--wire-line); border-radius: 999px; text-align: center; width: max-content; max-width: 88%;
+  }
+  .wire.small { aspect-ratio: 16 / 10; border-radius: var(--r-sm); }
+
+  /* 1. Hero: 첫 화면을 혼자 채운다 */
+  .hero { min-height: 100svh; display: flex; align-items: center; padding-block: calc(72px + var(--s5)) var(--s5); }
+  .hero .wrap { display: grid; gap: var(--s5); align-items: start; }
+  .hero h1 { max-width: 12em; }
+  .hero .visual { position: relative; }
+  .hero .visual::before {
+    content: ""; position: absolute; inset: 24px 0 -16px 24px; z-index: -1;
+    background: var(--accent-soft); border-radius: var(--r-lg);
+  }
+  .hero .wire { border-radius: var(--r-lg); aspect-ratio: 5 / 4; background-color: var(--surface); }
+  @media (max-width: 899px) {
+    .hero .wire { aspect-ratio: 16 / 11; }
+    .hero .visual::before { inset: 16px 0 -8px 16px; }
+  }
+  @media (min-width: 900px) { .hero .wrap { grid-template-columns: repeat(2, 1fr); gap: 24px; } }
+
+  /* 로드 시 한 번 등장 */
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  [data-enter] > * { animation: rise .7s var(--ease) both; }
+  [data-enter] > :nth-child(2) { animation-delay: .08s; }
+  [data-enter] > :nth-child(3) { animation-delay: .16s; }
+  [data-enter] > :nth-child(4) { animation-delay: .24s; }
+
+  /* 2. Problem: 어두운 바탕으로 리듬을 바꾼다 */
+  .problem { background: var(--dark); color: var(--dark-ink); padding-block: var(--sec); min-height: 100svh; display: flex; align-items: center; }
+  .problem .wrap { display: grid; gap: var(--s5); }
+  @media (min-width: 900px) { .problem .wrap { grid-template-columns: repeat(2, 1fr); gap: 24px; align-items: start; } }
+  .problem h2 { max-width: 10em; font-size: clamp(30px, 4.6vw, 56px); }
+  .problem .body { display: grid; gap: var(--s4); }
+  .problem .body p { color: var(--dark-muted); font-size: clamp(18px, 1.9vw, 23px); line-height: 1.65; padding-bottom: var(--s4); border-bottom: 1px solid rgba(255,255,255,.12); }
+  .problem .body p:nth-of-type(3) { color: var(--dark-ink); font-size: clamp(22px, 2.6vw, 30px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.4; border-bottom: 0; padding-bottom: 0; }
+  .problem .need { margin-top: 0; }
+
+  /* 3. Solution */
+  .solution { padding-block: var(--sec); }
+  .steps { list-style: none; padding: 0; margin-top: var(--s5); display: grid; gap: var(--s3); counter-reset: s; }
+  @media (min-width: 840px) { .steps { grid-template-columns: repeat(3, 1fr); } }
+  .step {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md);
+    padding: var(--s3); display: flex; flex-direction: column; gap: var(--s2);
+    transition: transform .2s var(--ease), box-shadow .2s var(--ease);
+  }
+  .step:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -18px rgba(8, 30, 20, .35); }
+  .step-head { display: flex; align-items: center; gap: 12px; margin-top: var(--s1); }
+  .step-head::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  .num {
+    width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; flex: none;
+    background: var(--accent); color: var(--accent-ink); font-weight: 800; font-size: 16px;
+  }
+  .step p { color: var(--muted); font-size: 17px; line-height: 1.65; }
+  .step .need { margin-top: 0; }
+  .closing-line {
+    margin-top: var(--s5); padding-left: var(--s3); border-left: 4px solid var(--accent);
+    font-size: clamp(20px, 2.4vw, 28px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.4;
+  }
+
+  /* 4. CTA */
+  .cta { min-height: 100svh; display: flex; align-items: center; padding-block: var(--sec); }
+  .cta .box {
+    background: var(--accent-soft); border: 1px solid var(--line); border-radius: var(--r-lg);
+    padding: clamp(40px, 7vw, 96px) clamp(20px, 5vw, 64px); text-align: start;
+  }
+  .cta h2 { max-width: none; font-size: clamp(30px, 4.8vw, 60px); }
+  .cta .lead { font-size: clamp(18px, 2vw, 24px); max-width: 34em; }
+
+  footer { padding: var(--s4) 0 var(--s5); color: var(--muted); font-size: 14px; text-align: start; border-top: 1px solid var(--line); }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    [data-enter] > * { animation: none; }
+    .btn, .btn::after, .step, .toggle { transition: none; }
+  }
+</style>
+</head>
+<body>
+<header class="top nav">
+  <a class="skip" href="#main">본문으로 건너뛰기</a>
+  <div class="wrap">
+    <span class="logo">택스봇</span>
+    <label class="toggle"><input type="checkbox" id="needToggle" checked><span id="needLabel">확인 필요 표시 켜짐</span></label>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 1. Hero -->
+  <section class="hero" id="hero">
+    <div class="wrap">
+      <div data-enter>
+        <h1>세무사 쓰기엔 아깝고, 직접 하긴 귀찮은 부가세</h1>
+        <p class="lead">카드 내역을 연동하면 부가세 신고용 엑셀을 클릭 한 번으로 받습니다.</p>
+        <a class="btn" href="#cta" data-scroll>내 카드 내역으로 엑셀 만들기</a>
+        <span class="need">가격 또는 무료 여부, 카드 정보 보호 안내</span>
+      </div>
+      <div class="visual" data-enter>
+        <figure class="wire" aria-label="이미지 자리">
+          <figcaption>이미지: 부가세 신고용 엑셀 결과 화면</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Problem -->
+  <section class="problem" id="problem">
+    <div class="wrap">
+      <h2>부가세 신고 때마다 같은 선택을 합니다</h2>
+      <div class="body">
+        <p>세무사에게 맡기자니 1인 프리랜서에게는 비용이 부담스럽습니다.</p>
+        <p>직접 하자니 신고 기간마다 카드 내역을 하나씩 열어 정리해야 합니다.</p>
+        <p>돈을 쓰거나, 시간을 쓰거나. 어느 쪽도 내키지 않는 선택입니다.</p>
+        <span class="need">세무사 대행 평균 비용, 수작업 정리에 걸리는 시간. 확인된 수치가 있을 때만 넣는다</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Solution -->
+  <section class="solution" id="solution">
+    <div class="wrap">
+      <h2>카드를 연결하고, 클릭 한 번이면 됩니다</h2>
+      <ol class="steps">
+        <li class="step">
+          <figure class="wire small" aria-label="이미지 자리"><figcaption>이미지: 카드 연동 화면</figcaption></figure>
+          <div class="step-head"><span class="num" aria-hidden="true">1</span></div>
+          <h3>카드 내역 연동</h3>
+          <p>사용하는 카드를 택스봇에 연결하면 사용 내역을 가져옵니다.</p>
+          <span class="need">지원 카드사 목록</span>
+        </li>
+        <li class="step">
+          <figure class="wire small" aria-label="이미지 자리"><figcaption>이미지: 엑셀 만들기 버튼 화면</figcaption></figure>
+          <div class="step-head"><span class="num" aria-hidden="true">2</span></div>
+          <h3>클릭 한 번</h3>
+          <p>엑셀 만들기 버튼을 누릅니다.</p>
+        </li>
+        <li class="step">
+          <figure class="wire small" aria-label="이미지 자리"><figcaption>이미지: 신고용 엑셀 파일</figcaption></figure>
+          <div class="step-head"><span class="num" aria-hidden="true">3</span></div>
+          <h3>신고용 엑셀 받기</h3>
+          <p>부가세 신고용 엑셀 파일이 만들어집니다. 신고 자료로 사용하세요.</p>
+        </li>
+      </ol>
+      <p class="closing-line">세무사에게 맡기지 않고도 부가세 신고 자료를 준비할 수 있습니다.</p>
+    </div>
+  </section>
+
+  <!-- 4. CTA -->
+  <section class="cta" id="cta">
+    <div class="wrap">
+      <div class="box">
+        <h2>이번 신고 기간의 카드 내역 정리는 택스봇에 맡기세요</h2>
+        <p class="lead">카드를 연결하고 클릭 한 번이면 부가세 신고용 엑셀이 나옵니다.</p>
+        <!-- 연동 페이지가 정해지면 href를 교체한다 -->
+        <a class="btn" href="#cta" id="finalCta">내 카드 내역으로 엑셀 만들기</a>
+        <span class="need">가격 또는 무료 여부, 카드 정보 보호 안내</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="closing"><div class="wrap">택스봇</div></footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 확인 필요 표시 토글
+  var box = document.getElementById('needToggle');
+  var label = document.getElementById('needLabel');
+  box.addEventListener('change', function () {
+    document.body.classList.toggle('hide-need', !box.checked);
+    label.textContent = box.checked ? '확인 필요 표시 켜짐' : '확인 필요 표시 꺼짐';
+  });
+
+  // 앵커 스크롤
+  document.querySelectorAll('[data-scroll]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var t = document.querySelector(a.getAttribute('href'));
+      if (!t) return;
+      e.preventDefault();
+      t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+    });
+  });
+
+  // 최종 CTA는 연결 대상이 정해지기 전까지 이동하지 않는다
+  document.getElementById('finalCta').addEventListener('click', function (e) { e.preventDefault(); });
+})();
+</script>
+</body>
+</html>
